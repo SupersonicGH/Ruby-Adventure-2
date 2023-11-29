@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class RubyController : MonoBehaviour
 {
@@ -30,13 +32,26 @@ public class RubyController : MonoBehaviour
 
     public ParticleSystem hitEffect;
 
+    
+    public Text GameOverText;
+    public GameManagerScript gameManager;
+    public GameManagerScript restartR;
+    // public GameObject winTextObject;
+
+    private bool isDead;
+    private bool gameOver;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        rigidbody2d = GetComponent<Rigidbody2D>();  
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
+        restartR = FindObjectOfType<GameManagerScript>();
+       
+
     }
 
     // Update is called once per frame
@@ -81,6 +96,18 @@ public class RubyController : MonoBehaviour
                 }  
             }
         }
+        if (currentHealth <= 0 && !isDead) 
+        {
+            isDead = true;
+            gameManager.gameOver();
+            Debug.Log("Dead");
+            speed = 0.0f;
+            
+
+        }
+        
+
+
     }
 
     void FixedUpdate()
@@ -91,6 +118,12 @@ public class RubyController : MonoBehaviour
         
         rigidbody2d.MovePosition(position);
     }
+
+   /* public void ChangeScore(int scoreAmount)
+    {
+        score += scoreAmount;
+
+    }*/
 
     public void ChangeHealth(int amount)
     {

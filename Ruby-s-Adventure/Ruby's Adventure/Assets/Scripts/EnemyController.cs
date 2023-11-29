@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
     public float speed;
     public bool vertical;
     public float changeTime = 3.0f;
+    public int score = 0;
+    public Text scoreText;
 
     Rigidbody2D rigidbody2d;
     float timer;
@@ -17,6 +20,7 @@ public class EnemyController : MonoBehaviour
     bool broken = true;
 
     public ParticleSystem smokeEffect;
+    private RubyController rubyController;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +28,25 @@ public class EnemyController : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         timer = changeTime;
         animator = GetComponent<Animator>();
+       
+
+        GameObject rubyControllerObject = GameObject.FindWithTag("RubyController"); //this line of code finds the RubyController script by looking for a "RubyController" tag on Ruby
+
+        if (rubyControllerObject != null)
+        {
+
+            rubyController = rubyControllerObject.GetComponent<RubyController>(); //and this line of code finds the rubyController and then stores it in a variable
+
+            print("Found the RubyConroller Script!");
+
+        }
+        if (rubyController == null)
+
+        {
+
+            print("Cannot find GameController Script!");
+
+        }
     }
 
     // Update is called once per frame
@@ -89,5 +112,9 @@ public class EnemyController : MonoBehaviour
         broken = false;
         rigidbody2d.simulated = false;
         animator.SetTrigger("Fixed");
+        ScoreManager.scoreCount += 1;
+
+
     }
+
 }

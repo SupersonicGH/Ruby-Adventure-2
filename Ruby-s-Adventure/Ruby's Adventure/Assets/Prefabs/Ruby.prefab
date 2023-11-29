@@ -108,6 +108,7 @@ MonoBehaviour:
   throwClip: {fileID: 8300000, guid: b2edfd40873655249ba0e01a5cf705be, type: 3}
   hitClip: {fileID: 8300000, guid: 9b1bb1f450b7d444fa4a8019d13519a7, type: 3}
   hitEffect: {fileID: 4996064426208189837, guid: 3f24092990408b244a85178f7be1ea98, type: 3}
+  score: 0
 --- !u!50 &6679605180443415863
 Rigidbody2D:
   serializedVersion: 4
