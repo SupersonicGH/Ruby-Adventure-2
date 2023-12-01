@@ -12,6 +12,7 @@ public class RubyController : MonoBehaviour
     public float timeInvincible = 2.0f;
 
     public GameObject projectilePrefab;
+    public GameObject JambiAudio;
 
     int currentHealth;
     public int health { get { return currentHealth; }}
@@ -29,6 +30,7 @@ public class RubyController : MonoBehaviour
     AudioSource audiosource;
     public AudioClip throwClip;
     public AudioClip hitClip;
+    public AudioClip JambiClip;
 
     public ParticleSystem hitEffect;
 
@@ -40,6 +42,7 @@ public class RubyController : MonoBehaviour
 
     private bool isDead;
     private bool gameOver;
+   
 
 
     // Start is called before the first frame update
@@ -50,7 +53,8 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         restartR = FindObjectOfType<GameManagerScript>();
-       
+
+      
 
     }
 
@@ -62,7 +66,9 @@ public class RubyController : MonoBehaviour
 
        Vector2 move = new Vector2(horizontal, vertical);
 
-       if(!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+    
+
+       if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
        {
             lookDirection.Set(move.x, move.y);
             lookDirection.Normalize();
@@ -89,9 +95,12 @@ public class RubyController : MonoBehaviour
              RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
             if (hit.collider != null)
             {
-                 NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
+                
+                NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
                 if (character != null)
                 {
+
+                    PlaySound(JambiClip);//Alex added 
                     character.DisplayDialog();
                 }  
             }
@@ -109,6 +118,7 @@ public class RubyController : MonoBehaviour
 
 
     }
+
 
     void FixedUpdate()
     {
