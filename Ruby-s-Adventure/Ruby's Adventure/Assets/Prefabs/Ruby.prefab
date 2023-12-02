@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 5287185918211369571}
   - component: {fileID: -1619680962116736719}
   - component: {fileID: 5675027604158479469}
+  - component: {fileID: 1726572190}
   m_Layer: 8
   m_Name: Ruby
-  m_TagString: Untagged
+  m_TagString: RubyController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,10 +106,14 @@ MonoBehaviour:
   maxHealth: 5
   timeInvincible: 2
   projectilePrefab: {fileID: 5598601531095716491, guid: c45fae61ba3f06a47b9911932c0c8c4d, type: 3}
+  JambiAudio: {fileID: 0}
   throwClip: {fileID: 8300000, guid: b2edfd40873655249ba0e01a5cf705be, type: 3}
   hitClip: {fileID: 8300000, guid: 9b1bb1f450b7d444fa4a8019d13519a7, type: 3}
+  JambiClip: {fileID: 8300000, guid: bfeedeec7b930a543ad8106beba29349, type: 3}
   hitEffect: {fileID: 4996064426208189837, guid: 3f24092990408b244a85178f7be1ea98, type: 3}
-  score: 0
+  GameOverText: {fileID: 0}
+  gameManager: {fileID: 0}
+  restartR: {fileID: 0}
 --- !u!50 &6679605180443415863
 Rigidbody2D:
   serializedVersion: 4
@@ -273,3 +278,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1726572190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523659065132372796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3996f74038eade54a9b9dd93165e795a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 0}
+  winManager: {fileID: 0}
+  winTextObject: {fileID: 0}
+  restartScript: {fileID: 0}
