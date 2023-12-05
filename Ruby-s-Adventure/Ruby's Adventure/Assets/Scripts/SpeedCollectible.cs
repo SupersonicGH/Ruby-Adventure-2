@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Created by Justin
 public class SpeedCollectible : MonoBehaviour
 {
     public ParticleSystem speedEffect;
