@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class RubyController : MonoBehaviour
 {
     public float speed = 3.0f;
+    public float speedBoost = 5.0f;
+    bool speedUp;
 
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
@@ -168,5 +170,20 @@ public class RubyController : MonoBehaviour
     public void PlaySound(AudioClip clip)
     {
         audiosource.PlayOneShot(clip);
+    }
+
+    //added by Justin
+    public void SpeedUpEnabled()
+    {
+        speedUp = true;
+        speed *= speedBoost;
+        StartCoroutine (SpeedUpDisableRoutine());
+    }
+
+    IEnumerator SpeedUpDisableRoutine()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        speed /= speedBoost;
     }
 }
