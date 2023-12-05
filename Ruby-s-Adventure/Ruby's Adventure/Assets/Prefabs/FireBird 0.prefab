@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5018001460209013446}
   - component: {fileID: 7516425073389147054}
   - component: {fileID: 3737813034720769631}
+  - component: {fileID: 7760640900200792056}
   m_Layer: 0
   m_Name: FireBird 0
   m_TagString: Untagged
@@ -179,3 +180,17 @@ MonoBehaviour:
     m_Bits: 256
   dir: {x: 0, y: 0, z: 0}
   shootingCooldown: 1.5
+--- !u!114 &7760640900200792056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4443320539861848451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a12c8da0525ce4fad5b9b4dae053c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalSpeed: 5
+  reducedSpeed: 2.5

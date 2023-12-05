@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FootSteps : MonoBehaviour
 {
-
+    //Alexander Thompson made this
     public AudioSource footstepsSound;
 
     // Update is called once per frame

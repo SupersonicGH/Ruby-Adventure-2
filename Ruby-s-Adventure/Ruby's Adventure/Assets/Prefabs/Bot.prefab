@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  vertical: 1
+  vertical: 0
   changeTime: 3
   score: 0
   scoreText: {fileID: 0}
@@ -286,6 +286,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
+  winManager: {fileID: 0}
+  winTextObject: {fileID: 0}
+  restartScript: {fileID: 0}
 --- !u!1001 &8919630145615226385
 PrefabInstance:
   m_ObjectHideFlags: 0

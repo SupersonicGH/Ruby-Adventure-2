@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class RubyController : MonoBehaviour
 {
     public float speed = 3.0f;
     public float speedBoost = 5.0f;
     bool speedUp;
+
+    private float originalSpeed;// Stores original speed before slowed
+    private float speedTimer = 0.0f;
 
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
@@ -17,8 +19,8 @@ public class RubyController : MonoBehaviour
     public GameObject JambiAudio;
 
     int currentHealth;
-    public int health { get { return currentHealth; }}
-    
+    public int health { get { return currentHealth; } }
+
     bool isInvincible;
     float invincibleTimer;
 
@@ -27,7 +29,7 @@ public class RubyController : MonoBehaviour
     float vertical;
 
     Animator animator;
-    Vector2 lookDirection = new Vector2(1,0);
+    Vector2 lookDirection = new Vector2(1, 0);
 
     AudioSource audiosource;
     public AudioClip throwClip;
@@ -36,49 +38,40 @@ public class RubyController : MonoBehaviour
 
     public ParticleSystem hitEffect;
 
-    
     public Text GameOverText;
     public GameManagerScript gameManager;
     public GameManagerScript restartR;
-    // public GameObject winTextObject;
 
     private bool isDead;
     private bool gameOver;
-   
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();  
+        rigidbody2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         restartR = FindObjectOfType<GameManagerScript>();
 
-      
-
+        originalSpeed = speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-       Vector2 move = new Vector2(horizontal, vertical);
+        Vector2 move = new Vector2(horizontal, vertical);
 
-    
-
-       if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
-       {
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
             lookDirection.Set(move.x, move.y);
             lookDirection.Normalize();
-       }
+        }
 
-       animator.SetFloat("Look X", lookDirection.x);
-       animator.SetFloat("Look Y", lookDirection.y);
-       animator.SetFloat("Speed", move.magnitude);
+        animator.SetFloat("Look X", lookDirection.x);
+        animator.SetFloat("Look Y", lookDirection.y);
+        animator.SetFloat("Speed", move.magnitude);
 
         if (isInvincible)
         {
@@ -87,70 +80,73 @@ public class RubyController : MonoBehaviour
                 isInvincible = false;
         }
 
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             Launch();
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-             RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
+            RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
             if (hit.collider != null)
             {
-                
                 NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
                 if (character != null)
                 {
-
-                    PlaySound(JambiClip);//Alex added 
+                    PlaySound(JambiClip);
                     character.DisplayDialog();
-                }  
+                }
             }
         }
-        if (currentHealth <= 0 && !isDead) 
+
+        if (currentHealth <= 0 && !isDead)
         {
             isDead = true;
             gameManager.gameOver();
             Debug.Log("Dead");
             speed = 0.0f;
-            
-
         }
-        
 
-
+        if (speedTimer > 0)
+        {
+            speedTimer -= Time.deltaTime;
+            if (speedTimer <= 0)
+            {
+                speed = originalSpeed;
+            }
+        }
     }
 
 
-    void FixedUpdate()
+    //Alex Thompson Added this function
+    public void ReduceSpeedForDuration(float reducedSpeed, float duration)
+    {
+        speed = reducedSpeed;
+        speedTimer = duration;
+    }
+
+    private void FixedUpdate()
     {
         Vector2 position = rigidbody2d.position;
         position.x = position.x + speed * horizontal * Time.deltaTime;
         position.y = position.y + speed * vertical * Time.deltaTime;
-        
+
         rigidbody2d.MovePosition(position);
     }
 
-   /* public void ChangeScore(int scoreAmount)
-    {
-        score += scoreAmount;
-
-    }*/
-
     public void ChangeHealth(int amount)
     {
-            if (amount < 0)
-            {
-                Instantiate(hitEffect, rigidbody2d.position, Quaternion.identity);
-                animator.SetTrigger("Hit");
-                PlaySound(hitClip);
-                if (isInvincible)
-                    return;
+        if (amount < 0)
+        {
+            Instantiate(hitEffect, rigidbody2d.position, Quaternion.identity);
+            animator.SetTrigger("Hit");
+            PlaySound(hitClip);
+            if (isInvincible)
+                return;
 
-                isInvincible = true;
-                invincibleTimer = timeInvincible;    
-            }
-
+            isInvincible = true;
+            invincibleTimer = timeInvincible;
+        }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
@@ -158,7 +154,7 @@ public class RubyController : MonoBehaviour
 
     void Launch()
     {
-         GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
 
         Projectile projectile = projectileObject.GetComponent<Projectile>();
         projectile.Launch(lookDirection, 300);

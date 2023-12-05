@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1161611997717270328}
   - component: {fileID: 7474504408141331151}
   - component: {fileID: 2578455211551955818}
+  - component: {fileID: 7507430711107852508}
   m_Layer: 0
   m_Name: FireProjectilePrefab
   m_TagString: Untagged
@@ -96,7 +97,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.004161954, y: -0.11514914}
@@ -133,3 +134,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7507430711107852508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6610024472257719245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a12c8da0525ce4fad5b9b4dae053c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalSpeed: 3
+  reducedSpeed: 1.5
+  slowSound: {fileID: 0}
