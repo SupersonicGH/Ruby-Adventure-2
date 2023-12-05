@@ -19,7 +19,7 @@ public class SpeedCollectible : MonoBehaviour
   void OnTriggerEnter2D(Collider2D other)
     {
     RubyController controller = other.GetComponent<RubyController>();
-    if (other.gameObject.CompareTag("Player"))
+    if (other.gameObject.CompareTag("RubyController"))
       {
         controller.SpeedUpEnabled();
         Instantiate(speedupEffect, rigidbody2d.position, Quaternion.identity);

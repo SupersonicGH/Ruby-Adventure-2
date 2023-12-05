@@ -15056,7 +15056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4523659065132372796, guid: 4e0d215e76cbe814486fe01278faf15e, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: RubyController
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e0d215e76cbe814486fe01278faf15e, type: 3}
