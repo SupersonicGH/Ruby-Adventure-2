@@ -10,14 +10,19 @@ public class RubyController : MonoBehaviour
 
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
+    public static int isLoaded = 1;
+    public float reloadTime = 1.0f;
+
+    public GameObject reloadText;
 
     public GameObject projectilePrefab;
-    public GameObject JambiAudio;
 
     int currentHealth;
     public int health { get { return currentHealth; }}
     
+    bool isReloading;
     bool isInvincible;
+    float reloadTimer;
     float invincibleTimer;
 
     Rigidbody2D rigidbody2d;
@@ -30,7 +35,8 @@ public class RubyController : MonoBehaviour
     AudioSource audiosource;
     public AudioClip throwClip;
     public AudioClip hitClip;
-    public AudioClip JambiClip;
+    public AudioClip emptyClip;
+    public AudioClip reloadingClip;
 
     public ParticleSystem hitEffect;
 
@@ -42,7 +48,6 @@ public class RubyController : MonoBehaviour
 
     private bool isDead;
     private bool gameOver;
-   
 
 
     // Start is called before the first frame update
@@ -53,8 +58,7 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         restartR = FindObjectOfType<GameManagerScript>();
-
-      
+       
 
     }
 
@@ -66,9 +70,7 @@ public class RubyController : MonoBehaviour
 
        Vector2 move = new Vector2(horizontal, vertical);
 
-    
-
-       if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+       if(!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
        {
             lookDirection.Set(move.x, move.y);
             lookDirection.Normalize();
@@ -85,9 +87,27 @@ public class RubyController : MonoBehaviour
                 isInvincible = false;
         }
 
+        if (isReloading)
+        {
+            reloadTimer -= Time.deltaTime;
+            if (reloadTimer < 0)
+            {
+                isLoaded = 1;
+                isReloading = false;
+                reloadText.SetActive(false);
+            }
+        }
+
         if(Input.GetKeyDown(KeyCode.C))
         {
-            Launch();
+            if (isLoaded==1)
+            {
+                Launch();
+            }
+            else
+            {
+                PlaySound(emptyClip);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -95,16 +115,19 @@ public class RubyController : MonoBehaviour
              RaycastHit2D hit = Physics2D.Raycast(rigidbody2d.position + Vector2.up * 0.2f, lookDirection, 1.5f, LayerMask.GetMask("NPC"));
             if (hit.collider != null)
             {
-                
-                NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
+                 NonPlayerCharacter character = hit.collider.GetComponent<NonPlayerCharacter>();
                 if (character != null)
                 {
-
-                    PlaySound(JambiClip);//Alex added 
                     character.DisplayDialog();
                 }  
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SetLoadStatus(1);
+        }
+
         if (currentHealth <= 0 && !isDead) 
         {
             isDead = true;
@@ -118,7 +141,6 @@ public class RubyController : MonoBehaviour
 
 
     }
-
 
     void FixedUpdate()
     {
@@ -163,6 +185,30 @@ public class RubyController : MonoBehaviour
 
         animator.SetTrigger("Launch");
         PlaySound(throwClip);
+        SetLoadStatus(0);
+    }
+
+    public void SetLoadStatus(int status)
+    {
+            if (status == 1)
+            {
+                if (isLoaded == 1 || isReloading == true)
+                {
+                    return;
+                }
+                else
+                {
+                    isReloading = true;
+                    reloadTimer = reloadTime;
+                    reloadText.SetActive(true);
+                    PlaySound(reloadingClip);
+                }
+                
+            }
+            else
+            {
+                isLoaded = 0;
+            }
     }
 
     public void PlaySound(AudioClip clip)
