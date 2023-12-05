@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -1619680962116736719}
   - component: {fileID: 5675027604158479469}
   - component: {fileID: 1726572190}
+  - component: {fileID: 1726572197}
   m_Layer: 8
   m_Name: Ruby
   m_TagString: RubyController
@@ -294,3 +295,16 @@ MonoBehaviour:
   winManager: {fileID: 0}
   winTextObject: {fileID: 0}
   restartScript: {fileID: 0}
+--- !u!114 &1726572197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523659065132372796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd45dc4622c97b844b9e7ff7be1d2f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepsSound: {fileID: 0}
