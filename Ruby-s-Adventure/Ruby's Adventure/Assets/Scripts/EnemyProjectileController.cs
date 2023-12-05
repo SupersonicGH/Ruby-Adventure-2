@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class EnemyProjectileController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody2D rb;
+    private float speed;
+
+    void Awake()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Launch the projectile in a specific direction and speed
+    public void Launch(Vector2 direction, float projectileSpeed)
     {
-        
+        speed = projectileSpeed;
+        rb.velocity = direction * speed;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // If the projectile collides with something, destroy the projectile
+        Destroy(gameObject);
     }
 }
