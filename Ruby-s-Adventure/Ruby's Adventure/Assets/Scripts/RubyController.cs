@@ -15,6 +15,15 @@ public class RubyController : MonoBehaviour
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
 
+    //added by Anthony
+    public static int isLoaded = 1;
+    public float reloadTime = 1.0f;
+    public GameObject reloadText;
+    bool isReloading;
+    float reloadTimer;
+    public AudioClip emptyClip;
+    public AudioClip reloadingClip;
+
     public GameObject projectilePrefab;
     public GameObject JambiAudio;
 
@@ -80,9 +89,35 @@ public class RubyController : MonoBehaviour
                 isInvincible = false;
         }
 
+        //added by Anthony
+        if (isReloading)
+        {
+            reloadTimer -= Time.deltaTime;
+            if (reloadTimer < 0)
+            {
+                isLoaded = 1;
+                isReloading = false;
+                reloadText.SetActive(false);
+            }
+        }
+
+        //added by Anthony
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SetLoadStatus(1);
+        }
+
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Launch();
+            //changed by Anthony
+            if (isLoaded==1)
+            {
+                Launch();
+            }
+            else
+            {
+                PlaySound(emptyClip);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -161,6 +196,8 @@ public class RubyController : MonoBehaviour
 
         animator.SetTrigger("Launch");
         PlaySound(throwClip);
+        //added by Anthony
+        SetLoadStatus(0);
     }
 
     public void PlaySound(AudioClip clip)
@@ -174,6 +211,30 @@ public class RubyController : MonoBehaviour
         speedUp = true;
         speed *= speedBoost;
         StartCoroutine (SpeedUpDisableRoutine());
+    }
+
+    //added by Anthony
+    public void SetLoadStatus(int status)
+    {
+            if (status == 1)
+            {
+                if (isLoaded == 1 || isReloading == true)
+                {
+                    return;
+                }
+                else
+                {
+                    isReloading = true;
+                    reloadTimer = reloadTime;
+                    reloadText.SetActive(true);
+                    PlaySound(reloadingClip);
+                }
+                
+            }
+            else
+            {
+                isLoaded = 0;
+            }
     }
 
     IEnumerator SpeedUpDisableRoutine()
